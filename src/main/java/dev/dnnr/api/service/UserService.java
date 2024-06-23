@@ -6,6 +6,9 @@ import dev.dnnr.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class UserService {
 
@@ -21,5 +24,15 @@ public class UserService {
 
         userRepository.save(newUser);
         return newUser;
+    }
+
+    public User findUserById(UUID id){
+        Optional<User> user = this.userRepository.findById(id);
+        return user.orElse(null);
+    }
+
+    public Void deleteUser(UUID id){
+        this.userRepository.deleteById(id);
+        return null;
     }
 }
