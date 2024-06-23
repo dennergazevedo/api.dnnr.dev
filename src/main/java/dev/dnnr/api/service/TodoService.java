@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class TodoService {
@@ -36,5 +38,13 @@ public class TodoService {
             return newTodo;
         }
         return null;
+    }
+
+    public Optional<List<Todo>> getTodoByUserId(UUID user_id){
+        return Optional.ofNullable(this.todoRepository.findByUserId(user_id));
+    }
+
+    public void deleteTodo(UUID todo_id){
+        this.todoRepository.deleteById(todo_id);
     }
 }
