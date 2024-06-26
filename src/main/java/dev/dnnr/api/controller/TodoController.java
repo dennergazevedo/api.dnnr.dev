@@ -7,6 +7,7 @@ import dev.dnnr.api.domain.user.User;
 import dev.dnnr.api.infra.security.TokenService;
 import dev.dnnr.api.repositories.UserRepository;
 import dev.dnnr.api.service.TodoService;
+import dev.dnnr.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,19 +29,21 @@ public class TodoController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     public ResponseEntity<Todo> create(@RequestHeader("Authorization") String token, @RequestBody TodoRequestDTO body){
-        var email = tokenService.verifyToken(token.replace("Bearer ", ""));
-        UserDetails user = userRepository.findByEmail(email);
-        var newTodoDTO = new TodoCreateDTO(body.description(), body.completed(), user.getUsername());
+        User user = userService.getAuthenticatedUser(token);
+        var newTodoDTO = new TodoCreateDTO(body.description(), body.completed(), user.getId());
         Todo newTodo = this.todoService.createTodo(newTodoDTO);
         return ResponseEntity.ok(newTodo);
     }
 
     @GetMapping
-    public ResponseEntity<Optional<List<Todo>>> getAllByUser(@RequestParam UUID user_id){
-        Optional<List<Todo>> todoList = this.todoService.getTodoByUserId(user_id);
+    public ResponseEntity<Optional<List<Todo>>> getAllByUser(@RequestHeader("Authorization") String token){
+        User user = userService.getAuthenticatedUser(token);
+        Optional<List<Todo>> todoList = this.todoService.getTodoByUserId(user.getId());
         return ResponseEntity.ok(todoList);
     }
 

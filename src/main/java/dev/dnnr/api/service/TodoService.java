@@ -25,18 +25,20 @@ public class TodoService {
     private UserRepository userRepository;
 
     public Todo createTodo(TodoCreateDTO data){
-        User user = this.userRepository.findAllByEmail(data.email());
+        Optional<User> user = this.userRepository.findById(data.user_id());
 
         Todo newTodo = new Todo();
         Timestamp createdAt = Timestamp.from(Instant.now());
 
-        newTodo.setUser(user);
-        newTodo.setCreatedAt(createdAt);
-        newTodo.setCompleted(data.completed());
-        newTodo.setDescription(data.description());
+        if(user.isPresent()){
+            newTodo.setUser(user.get());
+            newTodo.setCreatedAt(createdAt);
+            newTodo.setCompleted(data.completed());
+            newTodo.setDescription(data.description());
 
-        todoRepository.save(newTodo);
-        return newTodo;
+            todoRepository.save(newTodo);
+            return newTodo;
+        }else return null;
     }
 
     public Optional<List<Todo>> getTodoByUserId(UUID user_id){
