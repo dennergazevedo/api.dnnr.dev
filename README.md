@@ -40,23 +40,23 @@ POST /auth/register - Criar um novo usário
 POST /auth/login - Fazer login na aplicação
 ```
 
-### User (Em progresso)
+### User
 ```markdown
-DELETE /api/users?id={string} - Deletar um usuário
+(Em progresso) DELETE /api/users?id={string} - Deletar um usuário
 ```
 
-### Todos (Em progresso)
+### To-Do
 ```markdown
-POST /api/todos - Criar um item na TodoList
-DELETE /api/todos?id={string} - Deletar um item da TodoList
-GET /api/todos - Listar TodoList do usuário logado
+GET /tools/todos - Listar TodoList do usuário logado
+POST /tools/todos - Criar um item na TodoList
+(Em progresso) DELETE /tools/todos?id={string} - Deletar um item da TodoList
 ```
 
 ### Timer (Em breve)
 ```markdown
-POST /api/timer - Criar um novo timer
+POST /tools/timer - Criar um novo timer
+GET /tools/timer - Listar Timers do usuário logado
 DELETE /api/timer?id={string} - Deletar um Timer
-GET /api/timer - Listar Timers do usuário logado
 ```
 
 ## Autenticação
