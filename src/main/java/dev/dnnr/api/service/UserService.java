@@ -17,6 +17,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TokenService tokenService;
+
     public User createUser(UserRequestDTO data){
         User newUser = new User();
         newUser.setEmail(data.email());
@@ -37,5 +40,10 @@ public class UserService {
     public Void deleteUser(UUID id){
         this.userRepository.deleteById(id);
         return null;
+    }
+
+    public User getAuthenticatedUser(String token){
+        var email = tokenService.verifyToken(token.replace("Bearer ", ""));
+        return this.userRepository.findAllByEmail(email);
     }
 }
