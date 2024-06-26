@@ -18,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Todo {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String description;
     private Boolean completed;
