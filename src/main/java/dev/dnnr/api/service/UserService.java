@@ -2,8 +2,10 @@ package dev.dnnr.api.service;
 
 import dev.dnnr.api.domain.user.User;
 import dev.dnnr.api.domain.user.UserRequestDTO;
+import dev.dnnr.api.infra.security.TokenService;
 import dev.dnnr.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,6 +23,7 @@ public class UserService {
         newUser.setPassword(data.password());
         newUser.setFirstName(data.firstName());
         newUser.setLastName(data.lastName());
+        newUser.setRoles(data.roles());
 
         userRepository.save(newUser);
         return newUser;
