@@ -27,7 +27,7 @@ public class TokenService {
                     .withExpiresAt(this.genExpirationDate())
                     .sign(algorithm);
         }catch(JWTCreationException exception){
-            throw new RuntimeException("Error while generating token", exception);
+            throw new RuntimeException("Não foi possível gerar o token", exception);
         }
     }
 
@@ -40,7 +40,7 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         }catch(JWTVerificationException exception){
-            throw new RuntimeException("Error while verifying token", exception);
+            throw new RuntimeException("Token inválido", exception);
         }
     }
 
