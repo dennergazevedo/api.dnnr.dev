@@ -54,11 +54,11 @@ POST /tools/todos - Criar um item na TodoList
 DELETE /tools/todos?id={string} - Deletar um item da TodoList
 ```
 
-### Timer (Em breve)
+### Chronometer
 ```markdown
-POST /tools/timer - Criar um novo timer
-GET /tools/timer - Listar Timers do usuário logado
-DELETE /api/timer?id={string} - Deletar um Timer
+POST /tools/chronometer - Criar um novo cronômetro
+GET /tools/chronometer - Listar cronômetros do usuário logado
+DELETE /tools/chronometer?id={string} - Deletar um cronômetro
 ```
 
 ## Autenticação
