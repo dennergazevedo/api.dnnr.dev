@@ -2,12 +2,10 @@ package dev.dnnr.api.service;
 
 import dev.dnnr.api.domain.todo.Todo;
 import dev.dnnr.api.domain.todo.TodoCreateDTO;
-import dev.dnnr.api.domain.todo.TodoRequestDTO;
 import dev.dnnr.api.domain.user.User;
 import dev.dnnr.api.repositories.TodoRepository;
 import dev.dnnr.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;

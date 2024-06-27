@@ -4,13 +4,10 @@ import dev.dnnr.api.domain.todo.Todo;
 import dev.dnnr.api.domain.todo.TodoCreateDTO;
 import dev.dnnr.api.domain.todo.TodoRequestDTO;
 import dev.dnnr.api.domain.user.User;
-import dev.dnnr.api.infra.security.TokenService;
-import dev.dnnr.api.repositories.UserRepository;
 import dev.dnnr.api.service.TodoService;
 import dev.dnnr.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,11 +21,6 @@ public class TodoController {
     @Autowired
     private TodoService todoService;
 
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private UserService userService;
 
