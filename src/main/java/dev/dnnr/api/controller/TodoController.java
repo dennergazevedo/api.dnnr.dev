@@ -6,6 +6,7 @@ import dev.dnnr.api.domain.todo.TodoRequestDTO;
 import dev.dnnr.api.domain.user.User;
 import dev.dnnr.api.service.TodoService;
 import dev.dnnr.api.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class TodoController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<Todo> create(@RequestHeader("Authorization") String token, @RequestBody TodoRequestDTO body){
+    public ResponseEntity<Todo> create(@RequestHeader("Authorization") String token, @RequestBody @Valid TodoRequestDTO body){
         User user = userService.getAuthenticatedUser(token);
         var newTodoDTO = new TodoCreateDTO(body.description(), body.completed(), user.getId());
         Todo newTodo = this.todoService.createTodo(newTodoDTO);
@@ -40,7 +41,7 @@ public class TodoController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestParam UUID todo_id){
+    public ResponseEntity<Void> delete(@RequestParam @Valid UUID todo_id){
         this.todoService.deleteTodo(todo_id);
         return ResponseEntity.ok(null);
     }

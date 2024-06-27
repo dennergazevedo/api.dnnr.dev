@@ -6,6 +6,7 @@ import dev.dnnr.api.domain.chronometer.ChronometerRequestDTO;
 import dev.dnnr.api.domain.user.User;
 import dev.dnnr.api.service.ChronometerService;
 import dev.dnnr.api.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class ChronometerController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<Chronometer> create(@RequestHeader("Authorization") String token, @RequestBody ChronometerRequestDTO body) {
+    public ResponseEntity<Chronometer> create(@RequestHeader("Authorization") String token, @RequestBody @Valid ChronometerRequestDTO body) {
         User user = userService.getAuthenticatedUser(token);
         var newChronometerDTO = new ChronometerCreateDTO(body.description(), body.duration(), body.interrupted(), user.getId());
         Chronometer newChronometer = this.chronometerService.createChronometer(newChronometerDTO);
@@ -40,7 +41,7 @@ public class ChronometerController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestParam UUID chronometer_id) {
+    public ResponseEntity<Void> delete(@RequestParam @Valid UUID chronometer_id) {
         this.chronometerService.deleteChronometer(chronometer_id);
         return ResponseEntity.ok(null);
     }
