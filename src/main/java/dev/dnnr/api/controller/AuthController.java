@@ -1,9 +1,10 @@
 package dev.dnnr.api.controller;
 
-import dev.dnnr.api.domain.user.AuthDTO;
-import dev.dnnr.api.domain.user.LoginResponseDTO;
+import dev.dnnr.api.domain.auth.AuthDTO;
+import dev.dnnr.api.domain.auth.LoginResponseDTO;
 import dev.dnnr.api.domain.user.User;
 import dev.dnnr.api.domain.user.UserRequestDTO;
+import dev.dnnr.api.exceptions.AuthLoginException;
 import dev.dnnr.api.infra.security.TokenService;
 import dev.dnnr.api.repositories.UserRepository;
 import jakarta.validation.Valid;
@@ -35,6 +36,10 @@ public class AuthController {
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        if(token.isBlank()){
+            throw new AuthLoginException();
+        }
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
