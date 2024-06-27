@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/todos")
+@RequestMapping("/tools/todos")
 public class TodoController {
 
     @Autowired
