@@ -10,11 +10,13 @@ Este projeto é uma API criada usando Java, Java Spring, Flyway Migrations, Post
 Essa API é um estudo do Spring e será usada no meu site [dnnr.dev](https://social.dnnr.dev/) para utilizar algumas ferramentas privadas.
 
 ## Conteúdo
-- [Instalação](#instalacao)
+- [Instalação](#instalação)
 - [Como usar](#como-usar)
 - [API Endpoints](#api-endpoints)
-- [Autenticação](#autenticacao)
+- [Autenticação](#autenticação)
 - [Database](#database)
+
+## Instalação
 
 1. Clone o repositório
 
@@ -49,7 +51,7 @@ POST /auth/login - Fazer login na aplicação
 ```markdown
 GET /tools/todos - Listar TodoList do usuário logado
 POST /tools/todos - Criar um item na TodoList
-(Em progresso) DELETE /tools/todos?id={string} - Deletar um item da TodoList
+DELETE /tools/todos?id={string} - Deletar um item da TodoList
 ```
 
 ### Timer (Em breve)
