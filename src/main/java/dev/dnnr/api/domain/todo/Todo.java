@@ -20,8 +20,11 @@ public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @Column(nullable = false)
     private String description;
+    @Column(nullable = false)
     private Boolean completed;
+    @Column(nullable = false)
     private Date createdAt;
 
     @ManyToOne

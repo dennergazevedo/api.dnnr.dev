@@ -20,9 +20,13 @@ public class Chronometer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @Column(nullable = false)
     private String description;
+    @Column(nullable = false)
     private Date createdAt;
+    @Column(nullable = false)
     private Float duration;
+    @Column(nullable = false)
     private Boolean interrupted;
 
     @ManyToOne
