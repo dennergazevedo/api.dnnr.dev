@@ -1,0 +1,5 @@
+spring.application.name=
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+api.security.token.secret=
