@@ -44,7 +44,7 @@ POST /auth/login - Fazer login na aplicação
 
 ### User
 ```markdown
-(Em progresso) DELETE /api/users?id={string} - Deletar um usuário
+DELETE /api/users?id={string} - Deletar um usuário
 ```
 
 ### To-Do
