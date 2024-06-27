@@ -36,9 +36,8 @@ public class UserService {
         return user.orElse(null);
     }
 
-    public Void deleteUser(UUID id){
+    public void deleteUser(UUID id){
         this.userRepository.deleteById(id);
-        return null;
     }
 
     public User getAuthenticatedUser(String token){
