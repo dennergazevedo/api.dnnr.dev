@@ -1,4 +1,6 @@
 package dev.dnnr.api.domain.auth;
 
-public record LoginResponseDTO(String token) {
+import dev.dnnr.api.domain.user.UserResponseDTO;
+
+public record LoginResponseDTO(String token, UserResponseDTO user) {
 }

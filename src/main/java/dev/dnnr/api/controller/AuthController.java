@@ -4,9 +4,12 @@ import dev.dnnr.api.domain.auth.AuthDTO;
 import dev.dnnr.api.domain.auth.LoginResponseDTO;
 import dev.dnnr.api.domain.user.User;
 import dev.dnnr.api.domain.user.UserRequestDTO;
+import dev.dnnr.api.domain.user.UserResponseDTO;
+import dev.dnnr.api.domain.user.UserRole;
 import dev.dnnr.api.exceptions.AuthLoginException;
 import dev.dnnr.api.infra.security.TokenService;
 import dev.dnnr.api.repositories.UserRepository;
+import dev.dnnr.api.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +32,8 @@ public class AuthController {
     private UserRepository userRepository;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthDTO data){
@@ -41,7 +46,10 @@ public class AuthController {
             throw new AuthLoginException();
         }
 
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        User user = userService.getAuthenticatedUser(token);
+        UserResponseDTO responseUser = new UserResponseDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getRoles());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token, responseUser));
     }
 
     @PostMapping("/register")
@@ -49,7 +57,7 @@ public class AuthController {
         if(this.userRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.firstName(), data.lastName(), data.email(), encryptedPassword, data.roles());
+        User newUser = new User(data.firstName(), data.lastName(), data.email(), encryptedPassword, UserRole.USER);
 
         this.userRepository.save(newUser);
 
