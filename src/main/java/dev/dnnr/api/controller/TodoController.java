@@ -3,6 +3,7 @@ package dev.dnnr.api.controller;
 import dev.dnnr.api.domain.todo.Todo;
 import dev.dnnr.api.domain.todo.TodoCreateDTO;
 import dev.dnnr.api.domain.todo.TodoRequestDTO;
+import dev.dnnr.api.domain.todo.TodoUpdateDTO;
 import dev.dnnr.api.domain.user.User;
 import dev.dnnr.api.service.TodoService;
 import dev.dnnr.api.service.UserService;
@@ -43,6 +44,20 @@ public class TodoController {
     @DeleteMapping
     public ResponseEntity<Void> delete(@RequestParam @Valid UUID todo_id){
         this.todoService.deleteTodo(todo_id);
+        return ResponseEntity.ok(null);
+    }
+
+    @PatchMapping
+    public ResponseEntity<Todo> update(@RequestParam @Valid UUID todo_id, @RequestBody @Valid TodoRequestDTO body){
+        Optional<Todo> currentTodo = this.todoService.getTodoById(todo_id);
+        if(currentTodo.isPresent()){
+            TodoUpdateDTO updatedTodo = new TodoUpdateDTO(
+                    body.description(),
+                    body.completed(),
+                    currentTodo.get().getId()
+            );
+            this.todoService.updateTodoById(todo_id, updatedTodo);
+        }
         return ResponseEntity.ok(null);
     }
 }

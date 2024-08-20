@@ -2,9 +2,11 @@ package dev.dnnr.api.service;
 
 import dev.dnnr.api.domain.todo.Todo;
 import dev.dnnr.api.domain.todo.TodoCreateDTO;
+import dev.dnnr.api.domain.todo.TodoUpdateDTO;
 import dev.dnnr.api.domain.user.User;
 import dev.dnnr.api.repositories.TodoRepository;
 import dev.dnnr.api.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +47,20 @@ public class TodoService {
 
     public void deleteTodo(UUID todo_id){
         this.todoRepository.deleteById(todo_id);
+    }
+
+    public Optional<Todo> getTodoById(UUID todo_id){
+        return this.todoRepository.findById(todo_id);
+    }
+
+    @Transactional
+    public void updateTodoById(UUID id, TodoUpdateDTO todoUpdateDTO) {
+        Optional<Todo> optionalTodo = todoRepository.findById(id);
+        if (optionalTodo.isPresent()) {
+            Todo todo = optionalTodo.get();
+            todo.setDescription(todoUpdateDTO.description());
+            todo.setCompleted(todoUpdateDTO.completed());
+            todoRepository.save(todo);
+        }
     }
 }
