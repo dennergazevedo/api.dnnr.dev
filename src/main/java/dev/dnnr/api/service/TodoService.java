@@ -2,7 +2,7 @@ package dev.dnnr.api.service;
 
 import dev.dnnr.api.domain.todo.Todo;
 import dev.dnnr.api.domain.todo.TodoCreateDTO;
-import dev.dnnr.api.domain.todo.TodoUpdateDTO;
+import dev.dnnr.api.domain.todo.TodoListDTO;
 import dev.dnnr.api.domain.user.User;
 import dev.dnnr.api.repositories.TodoRepository;
 import dev.dnnr.api.repositories.UserRepository;
@@ -54,7 +54,7 @@ public class TodoService {
     }
 
     @Transactional
-    public void updateTodoById(UUID id, TodoUpdateDTO todoUpdateDTO) {
+    public void updateTodoById(UUID id, TodoListDTO todoUpdateDTO) {
         Optional<Todo> optionalTodo = todoRepository.findById(id);
         if (optionalTodo.isPresent()) {
             Todo todo = optionalTodo.get();

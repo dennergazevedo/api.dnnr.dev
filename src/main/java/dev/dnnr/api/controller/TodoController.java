@@ -2,8 +2,8 @@ package dev.dnnr.api.controller;
 
 import dev.dnnr.api.domain.todo.Todo;
 import dev.dnnr.api.domain.todo.TodoCreateDTO;
+import dev.dnnr.api.domain.todo.TodoListDTO;
 import dev.dnnr.api.domain.todo.TodoRequestDTO;
-import dev.dnnr.api.domain.todo.TodoUpdateDTO;
 import dev.dnnr.api.domain.user.User;
 import dev.dnnr.api.service.TodoService;
 import dev.dnnr.api.service.UserService;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tools/todos")
@@ -35,10 +36,17 @@ public class TodoController {
     }
 
     @GetMapping
-    public ResponseEntity<Optional<List<Todo>>> getAllByUser(@RequestHeader("Authorization") String token){
+    public ResponseEntity<List<TodoListDTO>> getAllByUser(@RequestHeader("Authorization") String token){
         User user = userService.getAuthenticatedUser(token);
         Optional<List<Todo>> todoList = this.todoService.getTodoByUserId(user.getId());
-        return ResponseEntity.ok(todoList);
+
+        List<TodoListDTO> todoListDTOs = todoList
+                .map(todos -> todos.stream()
+                        .map(todo -> new TodoListDTO(todo.getDescription(), todo.getCompleted(), todo.getId()))
+                        .collect(Collectors.toList()))
+                .orElse(List.of());
+
+        return ResponseEntity.ok(todoListDTOs);
     }
 
     @DeleteMapping
@@ -51,7 +59,7 @@ public class TodoController {
     public ResponseEntity<Todo> update(@RequestParam @Valid UUID todo_id, @RequestBody @Valid TodoRequestDTO body){
         Optional<Todo> currentTodo = this.todoService.getTodoById(todo_id);
         if(currentTodo.isPresent()){
-            TodoUpdateDTO updatedTodo = new TodoUpdateDTO(
+            TodoListDTO updatedTodo = new TodoListDTO(
                     body.description(),
                     body.completed(),
                     currentTodo.get().getId()
